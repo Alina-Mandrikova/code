@@ -6,7 +6,7 @@ from fpdf import FPDF
 import openai
 
 # Set your OpenAI API key here
-openai.api_key = "YOUR_OPENAI_API_KEY"
+openai.api_key = sk-proj-S0lrqmo9YtjRVQuXDSuOT3BlbkFJejkNMntkF38qckFEpanD
 
 def extract_text_from_image(image):
     text = pytesseract.image_to_string(image)
