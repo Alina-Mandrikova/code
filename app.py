@@ -104,7 +104,7 @@ def main():
         st.write("")
     
     with col2:
-        st.image("logo.png", width=200)  # Ensure this file exists in your directory
+        st.image("logo.png", use_column_width=True)  # Display the high-resolution logo
         st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
     
     with col3:
@@ -168,3 +168,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
