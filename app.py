@@ -22,15 +22,27 @@ st.markdown(
         text-align: center;
         margin-bottom: 2rem;
     }
+    .logo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 150px;
+    }
     .upload-box {
         border: 2px dashed #1F77B4;
         padding: 20px;
         border-radius: 10px;
         background-color: #eaf2f8;
+        margin-bottom: 20px;
     }
     .sidebar .sidebar-content {
         background-image: linear-gradient(#d3cce3, #e9e4f0);
         color: black;
+    }
+    .stButton>button {
+        background-color: #1F77B4;
+        color: white;
+        border-radius: 10px;
     }
     </style>
     """,
@@ -92,17 +104,8 @@ def generate_termination_pdf(data):
         return False
 
 def main():
-    col1, col2, col3 = st.columns([1, 2, 1])
-    
-    with col1:
-        st.write("")
-    
-    with col2:
-        st.image("logo.png", width=200)  # Ensure this file exists in your directory
-        st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
-    
-    with col3:
-        st.write("")
+    st.image("logo.png", width=200, className="logo")  # Ensure this file exists in your directory
+    st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
 
     st.write("Upload an image or PDF of the contract, or input the contract text directly.")
     
