@@ -26,7 +26,7 @@ st.markdown(
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 150px;
+        width: 200px;
     }}
     .upload-box {{
         border: 2px dashed #223FC0;
@@ -104,7 +104,7 @@ def generate_termination_pdf(data):
         return False
 
 def main():
-    st.image("logo.png", width=200, className="logo")  # Ensure this file exists in your directory
+    st.markdown('<img src="logo.png" class="logo">', unsafe_allow_html=True)  # Ensure this file exists in your directory
     st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
 
     st.write("Upload an image or PDF of the contract, or input the contract text directly.")
