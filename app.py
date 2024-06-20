@@ -8,6 +8,35 @@ import openai
 # Insert your OpenAI API key
 openai.api_key = "Your API reference here"
 
+# Add custom CSS for better styling
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #f0f2f6;
+    }
+    .title {
+        color: #1F77B4;
+        font-family: 'Arial';
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .upload-box {
+        border: 2px dashed #1F77B4;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #eaf2f8;
+    }
+    .sidebar .sidebar-content {
+        background-image: linear-gradient(#d3cce3, #e9e4f0);
+        color: black;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def extract_text_from_image(image):
     try:
         text = pytesseract.image_to_string(image)
@@ -63,23 +92,18 @@ def generate_termination_pdf(data):
         return False
 
 def main():
-    # Add custom CSS for better styling
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background-color: #f0f2f6;
-        }
-        .title {
-            color: #1F77B4;
-            font-family: 'Arial';
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    col1, col2, col3 = st.columns([1, 2, 1])
     
-    st.title("AI Contract Quitter")
+    with col1:
+        st.write("")
+    
+    with col2:
+        st.image("your_logo.png", width=200)
+        st.title("AI Contract Quitter")
+    
+    with col3:
+        st.write("")
+
     st.write("Upload an image or PDF of the contract, or input the contract text directly.")
     
     # Sidebar for customization options
@@ -91,10 +115,12 @@ def main():
     
     if upload_type == "Image":
         st.write("### Upload an Image")
-        image_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+        image_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"], help="Upload a contract image")
         if image_file:
+            st.markdown('<div class="upload-box">', unsafe_allow_html=True)
             image = Image.open(image_file)
             st.image(image, caption='Uploaded Image', use_column_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
             text = extract_text_from_image(image)
             if text:
                 st.write("Extracted Text:", text)
@@ -108,8 +134,9 @@ def main():
     
     elif upload_type == "PDF":
         st.write("### Upload a PDF")
-        pdf_file = st.file_uploader("Upload a PDF", type=["pdf"])
+        pdf_file = st.file_uploader("Upload a PDF", type=["pdf"], help="Upload a contract PDF")
         if pdf_file:
+            st.markdown('<div class="upload-box">', unsafe_allow_html=True)
             text = extract_text_from_pdf(pdf_file)
             if text:
                 st.write("Extracted Text:", text)
@@ -123,7 +150,7 @@ def main():
     
     else:
         st.write("### Input Text")
-        text_input = st.text_area("Input the contract text")
+        text_input = st.text_area("Input the contract text", help="Paste the contract text here")
         if text_input:
             analysis_result, data = analyze_contract(text_input, analysis_depth, include_risk_assessment)
             if analysis_result:
@@ -135,4 +162,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
