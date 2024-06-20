@@ -8,6 +8,35 @@ import openai
 # Insert your OpenAI API key
 openai.api_key = "Your API reference here"
 
+# Add custom CSS for better styling
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #f0f2f6;
+    }
+    .title {
+        color: #1F77B4;
+        font-family: 'Arial';
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .upload-box {
+        border: 2px dashed #1F77B4;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #eaf2f8;
+    }
+    .sidebar .sidebar-content {
+        background-image: linear-gradient(#d3cce3, #e9e4f0);
+        color: black;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def extract_text_from_image(image):
     try:
         text = pytesseract.image_to_string(image)
@@ -63,42 +92,13 @@ def generate_termination_pdf(data):
         return False
 
 def main():
-    # Add custom CSS for better styling
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background-color: #f0f2f6;
-        }
-        .title {
-            color: #1F77B4;
-            font-family: 'Arial';
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .upload-box {
-            border: 2px dashed #1F77B4;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #eaf2f8;
-        }
-        .sidebar .sidebar-content {
-            background-image: linear-gradient(#d3cce3, #e9e4f0);
-            color: black;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col1:
         st.write("")
     
     with col2:
-        st.image("your_logo.png", width=200)
+        st.image("logo.png", width=200)  # Ensure this file exists in your directory
         st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
     
     with col3:
@@ -162,4 +162,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
