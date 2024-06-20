@@ -10,28 +10,40 @@ openai.api_key = "Your API reference here"
 
 # Add custom CSS for better styling
 st.markdown(
-    """
+    f"""
     <style>
-    .stApp {
-        background-color: #f0f2f6;
-    }
-    .title {
-        color: #1F77B4;
+    .stApp {{
+        background-color: #A1B0F6;
+    }}
+    .title {{
+        color: #223FC0;
         font-family: 'Arial';
         font-size: 2.5rem;
         text-align: center;
         margin-bottom: 2rem;
-    }
-    .upload-box {
-        border: 2px dashed #1F77B4;
+    }}
+    .logo {{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 200px;
+    }}
+    .upload-box {{
+        border: 2px dashed #223FC0;
         padding: 20px;
         border-radius: 10px;
-        background-color: #eaf2f8;
-    }
-    .sidebar .sidebar-content {
-        background-image: linear-gradient(#d3cce3, #e9e4f0);
+        background-color: #E0E5FB;
+        margin-bottom: 20px;
+    }}
+    .sidebar .sidebar-content {{
+        background-image: linear-gradient(#A1B0F6, #E0E5FB);
         color: black;
-    }
+    }}
+    .stButton>button {{
+        background-color: #223FC0;
+        color: white;
+        border-radius: 10px;
+    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -92,17 +104,8 @@ def generate_termination_pdf(data):
         return False
 
 def main():
-    col1, col2, col3 = st.columns([1, 2, 1])
-    
-    with col1:
-        st.write("")
-    
-    with col2:
-        st.image("logo.png", width=200)  # Ensure this file exists in your directory
-        st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
-    
-    with col3:
-        st.write("")
+    st.markdown('<img src="logo.png" class="logo">', unsafe_allow_html=True)  # Ensure this file exists in your directory
+    st.markdown('<div class="title">AI Contract Quitter</div>', unsafe_allow_html=True)
 
     st.write("Upload an image or PDF of the contract, or input the contract text directly.")
     
