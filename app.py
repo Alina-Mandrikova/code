@@ -10,40 +10,40 @@ openai.api_key = "Your API reference here"
 
 # Add custom CSS for better styling
 st.markdown(
-    """
+    f"""
     <style>
-    .stApp {
-        background-color: #f0f2f6;
-    }
-    .title {
-        color: #1F77B4;
+    .stApp {{
+        background-color: #A1B0F6;
+    }}
+    .title {{
+        color: #223FC0;
         font-family: 'Arial';
         font-size: 2.5rem;
         text-align: center;
         margin-bottom: 2rem;
-    }
-    .logo {
+    }}
+    .logo {{
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 150px;
-    }
-    .upload-box {
-        border: 2px dashed #1F77B4;
+    }}
+    .upload-box {{
+        border: 2px dashed #223FC0;
         padding: 20px;
         border-radius: 10px;
-        background-color: #eaf2f8;
+        background-color: #E0E5FB;
         margin-bottom: 20px;
-    }
-    .sidebar .sidebar-content {
-        background-image: linear-gradient(#d3cce3, #e9e4f0);
+    }}
+    .sidebar .sidebar-content {{
+        background-image: linear-gradient(#A1B0F6, #E0E5FB);
         color: black;
-    }
-    .stButton>button {
-        background-color: #1F77B4;
+    }}
+    .stButton>button {{
+        background-color: #223FC0;
         color: white;
         border-radius: 10px;
-    }
+    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -165,4 +165,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
