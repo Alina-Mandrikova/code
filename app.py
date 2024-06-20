@@ -5,8 +5,8 @@ import pdfplumber
 from fpdf import FPDF
 import openai
 
-# Set your OpenAI API key here
-openai.api_key = sk-proj-S0lrqmo9YtjRVQuXDSuOT3BlbkFJejkNMntkF38qckFEpanD
+# Retrieve the OpenAI API key from environment variables
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def extract_text_from_image(image):
     text = pytesseract.image_to_string(image)
