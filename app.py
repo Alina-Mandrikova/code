@@ -4,9 +4,14 @@ import pytesseract
 import pdfplumber
 from fpdf import FPDF
 import openai
+import os  # Import the os module
 
-# Insert your OpenAI API key
+# Get the OpenAI API key from the environment variable
 api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
+else:
+    openai.api_key = api_key
 
 # Add custom CSS for better styling
 st.markdown(
@@ -168,4 +173,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
