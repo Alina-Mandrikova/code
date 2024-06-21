@@ -6,7 +6,7 @@ from fpdf import FPDF
 import openai
 
 # Insert your OpenAI API key
-api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "Your API reference here"
 
 # Add custom CSS for better styling
 st.markdown(
