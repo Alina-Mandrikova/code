@@ -9,6 +9,7 @@ import requests
 import io
 
 # Get the OpenAI API key from the environment variable
+
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     st.error("API key not found. Please set the OPENAI_API_KEY environment variable.")
@@ -69,30 +70,22 @@ def extract_text_from_pdf(file):
         st.error(f"Error extracting text from PDF: {e}")
         return None
 
-def analyze_contract(text, depth="Basic", risk_assessment=False):
+def analyze_contract(text):
     try:
         messages = [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Analyze the following contract text with {depth} analysis and {'include' if risk_assessment else 'do not include'} risk assessment:\n\n{text}\n\n"}
+            {"role": "user", "content": f"Analyze the following contract text and extract the contract party, contract number, date of birth, and quitting party:\n\n{text}\n\n"}
         ]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=messages,
             max_tokens=500
         )
         analysis_result = response.choices[0].message["content"].strip()
-        data = {
-            "parties": "Extracted parties from analysis",
-            "termination_clause": "Extracted termination clause from analysis",
-            "effective_date": "Extracted effective date from analysis",
-            "customer_name": "Extracted customer name from analysis",
-            "customer_number": "Extracted customer number from analysis",
-            "contract_type": "Extracted contract type from analysis"
-        }
-        return analysis_result, data
+        return analysis_result
     except Exception as e:
-        st.error(f"Error analyzing contract: {e}")
-        return None, None
+        print(f"Error analyzing contract: {e}")
+        return None
 
 def generate_signature(name):
     try:
