@@ -1,23 +1,13 @@
-from data_extraction import DataExtractor
-import streamlit as st
-import openai
 import os
+import streamlit as st
 from PIL import Image
+import openai
 
+from datetime import datetime
+import io
 
-file_path = './termination_letter.pdf'
-signature_path = './signature.png'
-data_extractor = DataExtractor(file_path, 'pdf', None)
-
-#if data_extractor.file_type == 'pdf':
-text = data_extractor.extract_text_from_pdf()
-extracted_info = data_extractor.analyze_and_extract_contract_info(text)
-analysis_result = data_extractor.analyze_contract(extracted_info)
-name = data_extractor.get_name(analysis_result)
-signature = data_extractor.generate_signature(name)
-termination_pdf = data_extractor.create_termination_pdf(analysis_result, signature)
-
-
+# Import your DataExtractor class here
+from data_extraction import DataExtractor
 
 # Get the OpenAI API key from the environment variable
 api_key = os.getenv("OPENAI_API_KEY")
@@ -83,6 +73,8 @@ def main():
     
     upload_type = st.selectbox("Select input type", ["Image", "PDF", "Text"])
     
+    data_extractor = DataExtractor(file_path=None, file_type=None, image_path=None)  # Initialize with placeholder values
+
     if upload_type == "Image":
         st.write("### Upload an Image")
         image_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"], help="Upload a contract image")
@@ -91,52 +83,56 @@ def main():
             image = Image.open(image_file)
             st.image(image, caption='Uploaded Image', use_column_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
-            text = extract_text_from_image(image)
+            
+            data_extractor.image_path = image_file
+            text = data_extractor.extract_text_from_image()
             if text:
                 st.write("Extracted Text:", text)
-                analysis_result, data = analyze_contract(text, analysis_depth, include_risk_assessment)
+                analysis_result = data_extractor.analyze_contract(text)
+                data = data_extractor.analyze_and_extract_contract_info(text)
                 if analysis_result:
                     st.write("Analysis Result:", analysis_result)
                     st.write("Extracted Data:", data)
                     if st.button("Generate Termination Contract"):
-                        if generate_termination_pdf(data):
-                            st.success("Termination Contract generated: termination_contract.pdf")
-    
+                        signature = data_extractor.generate_signature(data_extractor.get_name(data))
+                        pdf = data_extractor.generate_termination_pdf(data, signature)
+                        if pdf:
+                            st.download_button("Download Termination Contract", pdf, file_name="termination_contract.pdf")
+
     elif upload_type == "PDF":
         st.write("### Upload a PDF")
         pdf_file = st.file_uploader("Upload a PDF", type=["pdf"], help="Upload a contract PDF")
         if pdf_file:
             st.markdown('<div class="upload-box">', unsafe_allow_html=True)
-            text = extract_text_from_pdf(pdf_file)
+            data_extractor.file_path = pdf_file
+            text = data_extractor.extract_text_from_pdf()
             if text:
                 st.write("Extracted Text:", text)
-                analysis_result, data = analyze_contract(text, analysis_depth, include_risk_assessment)
+                analysis_result = data_extractor.analyze_contract(text)
+                data = data_extractor.analyze_and_extract_contract_info(text)
                 if analysis_result:
                     st.write("Analysis Result:", analysis_result)
                     st.write("Extracted Data:", data)
                     if st.button("Generate Termination Contract"):
-                        if generate_termination_pdf(data):
-                            st.success("Termination Contract generated: termination_contract.pdf")
-    
+                        signature = data_extractor.generate_signature(data_extractor.get_name(data))
+                        pdf = data_extractor.generate_termination_pdf(data, signature)
+                        if pdf:
+                            st.download_button("Download Termination Contract", pdf, file_name="termination_contract.pdf")
+
     else:
         st.write("### Input Text")
         text_input = st.text_area("Input the contract text", help="Paste the contract text here")
         if text_input:
-            analysis_result, data = analyze_contract(text_input, analysis_depth, include_risk_assessment)
+            analysis_result = data_extractor.analyze_contract(text_input)
+            data = data_extractor.analyze_and_extract_contract_info(text_input)
             if analysis_result:
                 st.write("Analysis Result:", analysis_result)
                 st.write("Extracted Data:", data)
                 if st.button("Generate Termination Contract"):
-                    if generate_termination_pdf(data):
-                        st.success("Termination Contract generated: termination_contract.pdf")
+                    signature = data_extractor.generate_signature(data_extractor.get_name(data))
+                    pdf = data_extractor.generate_termination_pdf(data, signature)
+                    if pdf:
+                        st.download_button("Download Termination Contract", pdf, file_name="termination_contract.pdf")
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
