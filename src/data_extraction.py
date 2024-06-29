@@ -39,44 +39,6 @@ class DataExtractor:
             print(f"Error extracting text from PDF: {e}")
             return None
         
-    def extract_contract_info(self, text):
-        try:
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Analyze the following contract text and extract the name of the person as a quitting party, company with whom we want to cancel the contract, contract number, date of birth:\n\n{text}\n\n"}
-            ]
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                max_tokens=500
-            )
-            analysis_result = response.choices[0].message["content"].strip()
-
-            # Initialize the dictionary to store the extracted information
-            extracted_info = {
-                "company": [],
-                "contract_number": [],
-                "date_of_birth": [],
-                "quitting_party": []
-            }
-
-            # Here, you can implement a parsing logic based on the expected format of analysis_result
-            lines = analysis_result.split('\n')
-            for line in lines:
-                if "Company:" in line:
-                    extracted_info["company"].append(line.split("Company:")[1].strip())
-                if "Contract Number:" in line:
-                    extracted_info["contract_number"].append(line.split("Contract Number:")[1].strip())
-                if "Date of Birth:" in line:
-                    extracted_info["date_of_birth"].append(line.split("Date of Birth:")[1].strip())
-                if "Quitting Party:" in line:
-                    extracted_info["quitting_party"].append(line.split("Quitting Party:")[1].strip())
-
-            return extracted_info
-
-        except Exception as e:
-            print(f"Error analyzing contract: {e}")
-            return None
     
     def analyze_and_extract_contract_info(self, text):
         try:
@@ -138,6 +100,10 @@ class DataExtractor:
         except Exception as e:
             print(f"Error analyzing contract: {e}")
             return None
+        
+    def get_name(self, analysis_result):
+        name = analysis_result['name'][0]
+        return name
         
     def generate_signature(self, name):
         prompt = (
