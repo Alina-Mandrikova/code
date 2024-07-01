@@ -54,7 +54,6 @@ def main():
         st.session_state.analysis_attempts = 0
 
     if pdf_file:
-        st.markdown('<div class="upload-box">', unsafe_allow_html=True)
         st.write(f"Uploaded: {pdf_file.name}")
         st.markdown('</div>', unsafe_allow_html=True)
         
